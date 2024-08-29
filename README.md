@@ -1,4 +1,4 @@
-# **Career Recommendation & Roadmap Generation using AI**
+# **Intelligent Career Mapping and Progression System Utilizing AI**
 
 
 ### 1. Overview:
