@@ -11,6 +11,8 @@ model = GenerativeModel("gemini-1.5-flash-002")
 
 def generate_quiz(user_data):
     prompt = (
+        "You have to ask at least 5 question and maximum of 8 questions"
+        "based on the exisiting skills you have to modify the level of questions."
         "IMPORTANT: JUST GENERATE PURE JSON CODE. DO NOT ADD ANY EXTRANEOUS TEXT, LABELS, OR EXPLANATIONS. "
         "THE OUTPUT SHOULD ONLY BE A VALID JSON OBJECT THAT CAN BE PASSED TO A PARSE FUNCTION. "
         "The JSON should be structured as follows:\n"
@@ -22,10 +24,10 @@ def generate_quiz(user_data):
         "  ]\n"
         "}\n"
         "Profile Information:\n"
-        "Academic: MCA\n"
-        "Interests: AI\n"
-        "Target Industry: Computer\n"
-        "Skills: Nothing\n"
+        f"Academic: {user_data['academic']}\n"
+        f"Interests: {user_data['interests']}\n"
+        f"Target Industry: {user_data['target_industry']}\n"
+        f"Skills: {user_data['skills']}\n"
         )
 
     # Generate quiz content using AI model
@@ -35,9 +37,9 @@ def generate_quiz(user_data):
         json_match = re.search(r'(\{.*\})', response.text.strip(), re.DOTALL)
     
         if json_match:
-            json_data = json_match.group(1)  # Extract the JSON string
-            parsed_json = json.loads(json_data)  # Parse into Python dictionary
-            print(json.dumps(parsed_json, indent=2))  # Pretty print JSON
+            json_data = json_match.group(1) 
+            parsed_json = json.loads(json_data) 
+            return parsed_json
         else:
             print("No valid JSON found in the response.")
 
@@ -45,4 +47,4 @@ def generate_quiz(user_data):
         print(f"Error processing the response: {e}")
 
     
-    return parsed_json
+    
