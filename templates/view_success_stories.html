@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Success Stories{% endblock %}
+
+{% block content %}
+    <h2>All Success Stories</h2>
+    {% if stories %}
+        <ul>
+            {% for story in stories %}
+                <li>
+                    <strong>Username:</strong> {{ story.username }}<br>
+                    <strong>Academic Grades:</strong> {{ story.academic_grades }}<br>
+                    <strong>Skills:</strong> {{ story.skills }}<br>
+                    <strong>Roadmap:</strong> {{ story.roadmap }}<br>
+                    <strong>Status:</strong> {{ story.status }}<br>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No success stories found.</p>
+    {% endif %}
+{% endblock %}

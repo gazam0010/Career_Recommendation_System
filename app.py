@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
-from models.ai_model_quiz import generate_quiz
-#from models.ai_model import generate_roadmap
+from models.ai_model import generate_quiz, generate_roadmap_func
 import os
 
 # Initialize the Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = os.urandom(24) 
 
 # Configure SQLite database for storing user credentials
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///career_mapping.db'
@@ -23,6 +22,8 @@ class SuccessStory(db.Model):
     academic_grades = db.Column(db.String(120), nullable=False)
     skills = db.Column(db.String(250), nullable=False)
     roadmap = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(20), default="pending", nullable=False)
+
 
 # Define User model for storing login information
 class User(db.Model):
@@ -37,6 +38,11 @@ with app.app_context():
         user = User(username='gazam', password='password123')
         db.session.add(user)
         db.session.commit()
+        
+    if not User.query.filter_by(username='admin').first():
+       admin = User(username='admin', password='adminpass')
+       db.session.add(admin)
+       db.session.commit()
 
 # Home route, displays the welcome page
 @app.route("/")
@@ -104,18 +110,19 @@ def generate_quiz_page():
     return render_template("quiz.html", quiz_data=quiz_data)
 
 
-
 # Generate Roadmap route, sends quiz answers to Vertex AI and displays roadmap
 @app.route("/generate_roadmap", methods=["POST"])
 def generate_roadmap():
     if 'username' not in session:
         return redirect(url_for("loginpage"))
+    
     quiz_answers = request.form.getlist("answers[]")
     # Retrieve user data from session
     user_data = session.get('user_data', {})
-    # Send user data and quiz answers to Vertex AI to generate roadmap
-    roadmap = generate_roadmap(user_data, quiz_answers)
-    return render_template("roadmap.html", roadmap=roadmap)
+    # Generate roadmap using AI model
+    roadmap = generate_roadmap_func(user_data, quiz_answers)
+    return render_template("roadmap.html", roadmap=roadmap.get("roadmap", []))
+
 
 # Success Stories
 @app.route("/success_stories", methods=["GET", "POST"])
@@ -144,12 +151,94 @@ def success_stories():
     return render_template("success_stories.html")  
 
 
+@app.route("/view_success_stories")
+def view_success_stories():
+    if 'username' not in session:
+        return redirect(url_for("loginpage"))
+
+    # Retrieve all success stories from the database
+    stories = SuccessStory.query.all()
+
+    # Render the page that displays all success stories
+    return render_template("view_success_stories.html", stories=stories)
+
+# Admin panel route for managing success stories
+@app.route("/admin_loginpage")
+def admin_loginpage():
+    return render_template("admin_login.html", title="Admin Login")     
+
+@app.route("/admin_afterlogin", methods=["POST"])
+def admin_afterlogin():
+    username = request.form.get("uname")
+    password = request.form.get("pass")
+    
+    # Check if admin credentials are correct
+    admin_user = User.query.filter_by(username=username, password=password).first()
+    
+    if admin_user and admin_user.username == "admin":
+        session['admin'] = True  # Mark this session as admin
+        flash(f"Welcome Admin, {username}!", "success")
+        return redirect(url_for("admin_panel"))  # Redirect to the admin panel
+    
+    flash("Invalid admin credentials. Please try again.", "danger")
+    return redirect(url_for("admin_loginpage"))
+
+
+@app.route("/admin")
+def admin_panel():
+    # Check if admin is logged in
+    if not session.get('admin'):
+        flash("You need to be an admin to access this page.", "danger")
+        return redirect(url_for("admin_loginpage"))  # Redirect to admin login page if not an admin
+
+    # Fetch all success stories
+    stories = SuccessStory.query.all()
+
+    return render_template("admin_panel.html", stories=stories)
+
+
+@app.route("/approve_story/<int:story_id>")
+def approve_story(story_id):
+    # Check if the user is admin
+    if not session.get('admin'):
+        flash("You need to be an admin to perform this action.", "danger")
+        return redirect(url_for("admin_loginpage"))
+    
+    story = SuccessStory.query.get_or_404(story_id)
+    story.status = "approved"  # Mark as approved
+    db.session.commit()
+    flash("Story approved successfully!", "success")
+    return redirect(url_for("admin_panel"))  # Redirect to the admin panel
+
+@app.route("/delete_story/<int:story_id>")
+def delete_story(story_id):
+    # Check if the user is admin
+    if not session.get('admin'):
+        flash("You need to be an admin to perform this action.", "danger")
+        return redirect(url_for("admin_loginpage"))
+    
+    story = SuccessStory.query.get_or_404(story_id)
+    db.session.delete(story)
+    db.session.commit()
+    flash("Story deleted successfully!", "success")
+    return redirect(url_for("admin_panel"))  # Redirect to the admin panel
+
+
+
+
 # Logout route, clears session data and redirects to login
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.", "info")
     return redirect(url_for("loginpage"))
+
+# Logout route, clears session data and redirects to login
+@app.route("/admin_logout")
+def admin_logout():
+    session.clear()
+    flash("You have been logged out.", "info")
+    return redirect(url_for("admin_loginpage"))
 
 
 # Run the app

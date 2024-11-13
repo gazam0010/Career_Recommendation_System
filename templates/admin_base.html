@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Career Recommendations System{% endblock %}</title>
+    <title>{% block title %}Admin Panel{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <!-- Header with Navigation Bar -->
+    <!-- Admin Header and Navigation Bar -->
     <header>
-        <h1>{% block header %}Welcome to Your Dashboard{% endblock %}</h1>
+        <h1>Admin Panel</h1>
         <nav>
             <ul class="navbar">
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('career_recommendations') }}">Career Recommendations</a></li>
-                <li><a href="{{ url_for('success_stories') }}">Success Stories</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('admin_panel') }}">Home</a></li>
+                <li><a href="{{ url_for('admin_logout') }}">Logout</a></li>
             </ul>
         </nav>
     </header>

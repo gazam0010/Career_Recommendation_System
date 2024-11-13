@@ -1,0 +1,33 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Panel - Success Stories{% endblock %}
+
+{% block content %}
+    <h2>All Success Stories</h2>
+
+    {% if stories %}
+        <ul>
+            {% for story in stories %}
+                <li>
+                    <strong>Username:</strong> {{ story.username }}<br>
+                    <strong>Academic Grades:</strong> {{ story.academic_grades }}<br>
+                    <strong>Skills:</strong> {{ story.skills }}<br>
+                    <strong>Roadmap:</strong> {{ story.roadmap }}<br>
+                    <strong>Status:</strong> {{ story.status }}<br>
+
+                    {% if story.status == "pending" %}
+                        <!-- Buttons for Admin to Approve or Delete Stories -->
+                        <a href="{{ url_for('approve_story', story_id=story.id) }}" class="button">Approve</a>
+                    {% endif %}
+
+                    <!-- Admin can always delete a story -->
+                    <a href="{{ url_for('delete_story', story_id=story.id) }}" class="button" onclick="return confirm('Are you sure you want to delete this story?')">Delete</a>
+
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No success stories found.</p>
+    {% endif %}
+{% endblock %}

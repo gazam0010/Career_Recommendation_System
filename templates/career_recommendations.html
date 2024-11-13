@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Career Recommendations</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Career Recommendations</h1>
-    </header>
-    <main class="form-container">
-        <form action="{{ url_for('generate_quiz_page') }}" method="post">
+{% extends "base.html" %}
 
-             <!-- Academic -->
-             <label for="academic">Academic Background:</label>
-             <input type="text" id="academic" name="academic" required>
+{% block title %}Career Recommendations{% endblock %}
 
-            <!-- Interests -->
-            <label for="interests">Interests:</label>
-            <input type="text" id="interests" name="interests" required>
+{% block header %}
+<h1>Career Recommendations</h1>
+<p class="ai-generated">Recommendations Curated by AI ✨</p>
+{% endblock %}
 
-            <!-- Target Industry -->
-            <label for="target_industry">Target Industry:</label>
-            <input type="text" id="target_industry" name="target_industry">
+{% block content %}
+<main class="form-container">
+    <form action="{{ url_for('generate_quiz_page') }}" method="post">
+        <!-- Academic Background -->
+        <label for="academic">Academic Background:</label>
+        <input type="text" id="academic" name="academic" required>
 
-            <!-- Skills -->
-            <label for="skills">Skills:</label>
-            <input type="text" id="skills" name="skills" required>
+        <!-- Interests -->
+        <label for="interests">Interests:</label>
+        <input type="text" id="interests" name="interests" required>
 
-            <button type="submit" class="button">Generate Quiz</button>
-        </form>
-    </main>
-</body>
-</html>
+        <!-- Target Industry -->
+        <label for="target_industry">Target Industry:</label>
+        <input type="text" id="target_industry" name="target_industry">
+
+        <!-- Skills -->
+        <label for="skills">Skills:</label>
+        <input type="text" id="skills" name="skills" required>
+
+        <button type="submit" class="button">Generate Quiz</button>
+    </form>
+</main>
+{% endblock %}

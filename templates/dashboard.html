@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Welcome, {{ username }}!</h1>
-        <nav>
-            <ul class="navbar">
-                <li><a href="{{ url_for('career_recommendations') }}">Career Recommendations</a></li>
-                <li><a href="{{ url_for('success_stories') }}">Success Stories</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="dashboard-content">
-        <p>Explore career paths tailored to your profile and read success stories from others who have achieved their goals.</p>
-        <div class="dashboard-cards">
-            <div class="card">
-                <h3>Career Recommendations</h3>
-                <p>Begin your journey with personalized career recommendations and interactive quizzes.</p>
-                <a href="{{ url_for('career_recommendations') }}" class="button">Get Started</a>
-            </div>
-            <div class="card">
-                <h3>Success Stories</h3>
-                <p>Provide your success story.</p>
-                <a href="{{ url_for('success_stories') }}" class="button">Write your story</a>
-            </div>
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block header %}
+<h1>Career Recommendations System</h1>
+<h6 class="welcome-message">Welcome, {{ username }}!</h6>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="dashboard-cards">
+        <div class="card">
+            <h3>Career Recommendations</h3>
+            <p>Begin your journey with personalized career recommendations and interactive quizzes.</p>
+            <a href="{{ url_for('career_recommendations') }}" class="button">Get Started</a>
         </div>
-    </main>
-</body>
-</html>
+        <div class="card">
+            <h3>Success Stories</h3>
+            <p>Provide your success story.</p>
+            <a href="{{ url_for('success_stories') }}" class="button">Write your story</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Career Roadmap</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Your Career Roadmap</h1>
-    </header>
-    <main class="roadmap-content">
-        <ul>
+{% extends "base.html" %}
+
+{% block title %}Career Roadmap{% endblock %}
+
+{% block header %}
+<h1>Your Career Roadmap</h1>
+<p class="ai-generated">Recommendations by AI ✨</p> <!-- AI-generated tagline -->
+{% endblock %}
+
+{% block content %}
+<main class="roadmap-content">
+    <div class="roadmap-path">
+        {% if roadmap %}
             {% for step in roadmap %}
-                <li>{{ step }}</li>
+                <div class="roadmap-step">
+                    <div class="step-icon">🌟</div> <!-- Icon for each step -->
+                    <div class="step-content">
+                        <h2>{{ step.title }}</h2>
+                        <p>{{ step.description }}</p>
+                    </div>
+                    {% if not loop.last %}
+                        <div class="step-line"></div>
+                    {% endif %}
+                </div>
             {% endfor %}
-        </ul>
-    </main>
-</body>
-</html>
+        {% else %}
+            <p>No roadmap available at this time.</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}
