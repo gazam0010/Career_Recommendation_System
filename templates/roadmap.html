@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Roadmap</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Your Career Roadmap</h1>
+    </header>
+    <main class="roadmap-content">
+        <ul>
+            {% for step in roadmap %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>

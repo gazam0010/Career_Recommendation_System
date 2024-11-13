@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generated Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Generated Quiz</h1>
+    </header>
+
+    <main class="quiz-container">
+        <h2>Your Personalized Quiz</h2>
+
+        <!-- Loop through the quiz questions and display them -->
+        <form action="{{ url_for('generate_roadmap') }}" method="post">
+            {% for question in quiz_data['quiz'] %}
+                <div class="question-container">
+                    <p class="question">{{ question['question'] }}</p>
+                    <div class="options">
+                        {% for option in question['options'] %}
+                            <label class="option">
+                                <input type="radio" name="question_{{ loop.index }}" value="{{ option }}" required>
+                                {{ option }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="button">Submit Answers</button>
+        </form>
+    </main>
+</body>
+</html>

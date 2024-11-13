@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Success Stories</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Success Stories</h1>
+    </header>
+    <main class="form-container">
+        <!-- Form to submit a success story -->
+        <h2>Share Your Success Story</h2>
+        <form action="{{ url_for('success_stories') }}" method="post">
+            <!-- Academic Grades Section -->
+            <label for="academic_grades">Academic Grades (e.g., GPA, marks):</label>
+            <input type="text" id="academic_grades" name="academic_grades" required>
+
+            <!-- Skills Section -->
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" name="skills" required>
+
+            <!-- Roadmap Section -->
+            <label for="roadmap">Roadmap You Followed:</label>
+            <textarea id="roadmap" name="roadmap" rows="4" required></textarea>
+
+            <button type="submit" class="button">Submit Story</button>
+        </form>
+    </main>
+</body>
+</html>
