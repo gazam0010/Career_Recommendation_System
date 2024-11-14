@@ -78,7 +78,7 @@ def generate_roadmap_func(user_data, quiz_answers):
 
         if json_match:
             json_data = json_match.group(1)
-            parsed_json = json.loads(json_data)  # Convert the extracted JSON string to a Python dictionary
+            parsed_json = json.loads(json_data)  
             return parsed_json
         else:
             print("No valid JSON found in the response.")

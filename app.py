@@ -224,6 +224,26 @@ def delete_story(story_id):
     return redirect(url_for("admin_panel"))  # Redirect to the admin panel
 
 
+# Sign up route for new users
+@app.route("/user_signup", methods=["GET", "POST"])
+def user_signup():
+    if request.method == "POST":
+        username = request.form.get("uname")
+        password = request.form.get("pass")
+
+        # Check if the username already exists
+        if User.query.filter_by(username=username).first():
+            flash("Username already exists. Please choose a different one.", "warning")
+            return redirect(url_for("signup"))
+
+        # Create a new user with plain text password
+        new_user = User(username=username, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Signup successful! You can now log in.", "success")
+        return redirect(url_for("loginpage"))
+
+    return render_template("user_signup.html")
 
 
 # Logout route, clears session data and redirects to login

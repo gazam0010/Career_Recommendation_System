@@ -5,81 +5,108 @@
     <title>Career Mapping System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <style>
+        /* Base styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
             margin: 0;
             padding: 0;
+            background-color: #f8f9fb;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
+
+        /* Header styles */
         header {
-            background-color: #4CAF50;
-            color: white;
             padding: 20px;
             text-align: center;
+            width: 100%;
+            background-color: #3a3f44;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        /* Main content styles */
         main {
-            padding: 20px;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .intro-text {
-            font-size: 1.2rem;
-            line-height: 1.6;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #666;
             margin-top: 20px;
-            color: #555;
         }
+
+        /* Button styles */
         .button-group {
             margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
+
         .button {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
-            padding: 15px 25px;
-            margin: 10px;
-            text-decoration: none;
-            font-size: 1.1rem;
+            padding: 12px 20px;
+            font-size: 1rem;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         .button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        /* Footer styles */
         footer {
-            background-color: #333;
-            color: white;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9rem;
             text-align: center;
-            padding: 15px;
-            margin-top: 50px;
-        }
-        .button-group a {
-            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Career Mapping System</h1>
+        <h1>Intelligent Career Mapping System</h1>
     </header>
+
     <main>
         <section class="intro">
             <p class="intro-text">
-                Are you a student looking for guidance on your career path? Or a professional wanting to help others with their career growth? 
-                My Career Mapping System helps students discover the best career paths based on their skills, academic background, and interests.
-                With personalized AI-driven recommendations, we provide quizzes, roadmaps, and success stories to help students take the right steps in their professional journeys.
-            </p>
-            <p class="intro-text">
-                Whether you're just starting your career or looking to make a change, our system is here to guide you at every step.
+                Welcome to the Career Mapping System! My platform is designed to guide students and professionals in making informed career choices through AI-powered recommendations and personalized roadmaps.
+                Discover your ideal career path, take quizzes, and explore real-world success stories that inspire and guide your journey.
             </p>
         </section>
 
         <div class="button-group">
             <a href="{{ url_for('loginpage') }}" class="button">Login</a>
+            <a href="{{ url_for('user_signup') }}" class="button">User Signup</a>
             <a href="{{ url_for('admin_loginpage') }}" class="button">Admin Login</a>
         </div>
     </main>
 
     <footer>
-        <p>&copy; Designed and developed by Gulfarogh Azam</p>
+        <p>&copy; 2023 Designed and developed by Gulfarogh Azam</p>
     </footer>
 </body>
 </html>
